@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result {
+            width: 200px;
+            height: 100px;
+            border: solid 1px #90b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="result"></div>
+    <script>
+        const result = document.getElementById('result');
+        window.onkeydown = function() {
+            //alert('触发事件');
+            //1.创建对象
+            console.log('test event');
+            const xhr = new XMLHttpRequest();
+            //2.初始化  设置请求方法和请求url
+
+            //设置响应数据的格式
+
+            xhr.responseType = 'json';
+
+            xhr.open('GET', 'http://127.0.0.1:8000/json-server'); //如果这里是post请求就把get改为post
+            //3.发送
+            xhr.send();
+            //4.事件绑定 处理服务端返回结果
+            //readystate是xhr对象中的属性，表示状态0 1 2 3 4
+            //0为默认，1为执行完open函数，2为执行完send函数，3为服务端返回部分结果，4位服务端返回全部结果
+
+            xhr.onreadystatechange = function() {
+                //为了收到全部返回结果需要做一个判断
+                if (xhr.readyState === 4) {
+                    //判断响应状态码 200 401 403 404 500
+                    //其实状态码显示2开头的都是成功
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        //处理结果 行 头 空行 体
+                        //1.响应行
+                        console.log(xhr.status); //状态码
+                        console.log(xhr.statusText); //状态字符串
+                        console.log(xhr.getAllResponseHeaders()); //所有响应头
+                        /*手动转换数据格式
+                        let data = JSON.parse(xhr.response);
+                        console.log(data); //响应体
+
+                        //将响应结果字符串放入div中
+                        result.innerHTML = data.name;
+                        */
+
+                        //自动转换
+                        console.log(xhr.response);
+
+                        result.innerHTML = xhr.response.name;
+
+                    }
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>

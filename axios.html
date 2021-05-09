@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios发送ajax请求</title>
+    <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+</head>
+
+<body>
+    <button>GET</button>
+    <button>POST</button>
+    <button>AJAX通用方法</button>
+    <script>
+        const btns = document.getElementsByTagName('button');
+        axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+        //GET
+        btns[0].onclick = function() {
+            axios.get('/axios-server', {
+                params: { //参数
+                    a: 100,
+                    b: 200
+                },
+                //请求头信息
+                headers: {
+                    name: 'jx',
+                    age: 21
+                }
+            }).then(value => {
+                console.log(value);
+            });
+        }
+
+
+        //POST
+        btns[1].onclick = function() {
+            axios.post('/axios-server', {
+                username: 'admin',
+                password: 123 //第二个参数为请求体
+            }, {
+                params: {
+                    c: 300,
+                    d: 400
+                },
+                headers: {
+                    name: 'jx',
+                    age: '21'
+                }
+            })
+        }
+
+
+        //通用方法
+        btns[2].onclick = function() {
+            axios({
+                //请求方法
+                method: 'POST',
+                //url
+                url: '/axios-server',
+                //url参数
+                params: {
+                    e: 10,
+                    f: 20
+                },
+                //头信息
+                headers: {
+                    a: 30,
+                    b: 40
+                },
+                //请求体信息
+                date: {
+                    username: 'admin',
+                    password: 123
+                }
+            }).then(value => {
+                console.log(value);
+                //console.log(response.status);
+            })
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery中的ajax</title>
+    <script src="js/jquery-3.4.1.js"></script>
+    <style>
+        button {
+            border-radius: 10px;
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+        }
+        
+        button:nth-of-type(1) {
+            background-color: rgb(235, 120, 120);
+        }
+        
+        button:nth-of-type(2) {
+            background-color: rgb(125, 245, 125);
+        }
+        
+        button:nth-of-type(3) {
+            background-color: rgb(124, 124, 243);
+        }
+    </style>
+</head>
+
+<body>
+    <button id="first">GET</button>
+    <button>POST</button>
+    <button>通用方法</button>
+
+    <script type="text/javascript">
+        //GET方法
+        $("button:eq(0)").click(function() {
+
+            $.get('http://127.0.0.1:8000/jquery-server', {
+                a: 100,
+                b: 200
+            }, function(data) {
+                //一个参数为请求路径，一个参数为请求参数，一个参数为回调函数，函数参数date为响应体。
+                console.log(data);
+            })
+        })
+
+        //POST方法
+        $("button:eq(1)").click(function() {
+
+            $.post('http://127.0.0.1:8000/jquery-server', {
+                a: 100,
+                b: 200
+            }, function(date) {
+                //一个参数为请求路径，第二个参数为请求参数，第三个个参数为回调函数，函数参数date为响应体，第四个参数为设置返回响应体数据格式
+                console.log(data);
+            }, 'json')
+        })
+
+
+        //jquery通用发送ajax请求通用方法
+
+        /*$('button:eq(2)').click(function() {
+            $.ajax({
+                //url
+                url: 'http://127.0.0.1:8000/jquery-server',
+                //参数
+                data: {
+                    a: 100,
+                    b: 200
+                },
+                //请求类型
+                type: 'GET',
+                //响应体结果
+                dataType: 'json',
+                //成功的回调
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });*/
+
+        $('button:eq(2)').click(function() {
+            $.ajax({
+                //url
+                url: 'http://127.0.0.1:8000/delay',
+                //参数
+                data: {
+                    a: 100,
+                    b: 200
+                },
+                //请求类型
+                type: 'GET',
+                //响应体结果
+                dataType: 'json',
+                //成功的回调
+                success: function(data) {
+                    console.log(data);
+                },
+                //设置请求超时
+                timeout: 4000,
+                //失败的回调
+                error: function() {
+                    console.log('请求失败');
+                },
+                //自定义请求头
+                headers: {
+                    c: 300,
+                    d: 400
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>
